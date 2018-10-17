@@ -7,10 +7,16 @@ const OUT_OF_RANGE_ERROR_CODE = 11;
 
 class Server
 {
-
-
 	constructor() {
-		this.port = 3000;
+		console.log(process.argv[2]);
+		if(process.argv[2]) {
+			this.port = process.argv[2];
+		}
+		else {
+			this.port = 3000;
+		}
+		console.log("Hosting server on port " + this.port + " (Pass a different argument to change port)");
+
 		this.ip = "localhost";
 	
 		this.data = "";
@@ -18,7 +24,6 @@ class Server
 
 		this.speech = require('@google-cloud/speech');
 
-		this.client
 		this.start();
 	}
 
@@ -31,14 +36,17 @@ class Server
 			socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
 		});
 		console.log("Server created");
+
+		this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
+		this.listenForConnections();
 	}
 
-	listen() {
+	listenForConnections() {
 		this.server.listen(this.port, this.ip);
 		console.log("Server listening for connections");
 	}
 
-	microphoneStream(encoding, sampleRateHertz, languageCode) {
+	startMicrophoneStream(encoding, sampleRateHertz, languageCode) {
 	  // [START micStreamRecognize]
 
 	  // Node-Record-lpcm16
@@ -48,9 +56,9 @@ class Server
 	  const speech = require('@google-cloud/speech');
 
 	  const config = {
-		encoding: 'LINEAR16',
-		sampleRateHertz: 16000,
-		languageCode: 'en-US',
+		encoding: encoding,
+		sampleRateHertz: sampleRateHertz,
+		languageCode: languageCode,
 	  };
 
 	  const request = {
@@ -91,34 +99,14 @@ class Server
 
 	handleReconnectError(error) {
 		if(error.code === OUT_OF_RANGE_ERROR_CODE) {
-			httpServer.microphoneStream('LINEAR16', 16000, 'en-US');
+			httpServer.startMicrophoneStream('LINEAR16', 16000, 'en-US');
 		//	this.initializeStream();
 		}
 		else console.error
 	}
 
 	processRequest(req, res) {
-		if(req.method === "POST") {
-			var body = ""
-			req.on("data", (data) => {
-				body += data;
-			});
-			req.on("end", () => {
-				console.log("received data: " + body);
-				var vars = body.split("&");
-				for (var t = 0; t < vars.length; t++)
-                {
-                    var pair = vars[t].split("=");
-                    var key = decodeURIComponent(pair[0]);
-                    var val = decodeURIComponent(pair[1]);
-                    console.log(key + ":" + val);
-                }
-                // Tell Unity that we received the data OK
-                res.writeHead(200, {"Content-Type": "text/plain"});
-                res.end("OK");
-            });
-		}
-		else if(req.method === "GET") {
+		if(req.method === "GET") {
 			if(this.data == "") {
 				res.writeHead(204, {"Content-Type": "text/plain"});
 				res.end("");
@@ -138,5 +126,3 @@ class Server
 
 var httpServer = new Server();
 
-httpServer.microphoneStream('LINEAR16', 16000, 'en-US');
-httpServer.listen();
