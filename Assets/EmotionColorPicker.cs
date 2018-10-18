@@ -52,15 +52,15 @@ public class EmotionColorPicker : MonoBehaviour {
 			colorCodes.Add("white", ParseColorFromFile(lines[0]));
 			colorCodes.Add("black", ParseColorFromFile(lines[1]));
 			colorCodes.Add("red", ParseColorFromFile(lines[2]));
-			colorCodes.Add("green", Color.green);
-			colorCodes.Add("yellow", Color.yellow);
-			colorCodes.Add("blue", Color.blue);
-			colorCodes.Add("grey", Color.grey);
-			colorCodes.Add("brown", new Color(165 / 255, 42 / 255, 42 / 255));
-			colorCodes.Add("pink", new Color(1.0f, 192 / 255, 203 / 255));
-			colorCodes.Add("purple", new Color(0.5f, 0, 0.5f));
-			colorCodes.Add("orange", new Color(1.0f, 0.55f, 0.0f));
-			colorCodes.Add("None", Color.clear);
+			colorCodes.Add("green", ParseColorFromFile(lines[3]));
+			colorCodes.Add("yellow", ParseColorFromFile(lines[4]));
+			colorCodes.Add("blue", ParseColorFromFile(lines[5]));
+			colorCodes.Add("grey", ParseColorFromFile(lines[6]));
+			colorCodes.Add("brown", ParseColorFromFile(lines[7]));
+			colorCodes.Add("pink", ParseColorFromFile(lines[8]));
+			colorCodes.Add("purple", ParseColorFromFile(lines[9]));
+			colorCodes.Add("orange", ParseColorFromFile(lines[10]));
+			colorCodes.Add("None", ParseColorFromFile(lines[11]));
 		}
 		catch {
 			Debug.Log("Error parsing color file");
