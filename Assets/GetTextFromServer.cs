@@ -13,28 +13,10 @@ public class GetTextFromServer : MonoBehaviour {
 	EmotionColorPicker colorPicker;
 	
 	// Use this for initialization
-	IEnumerator Start () {
+	void Start () {
 		displayText = GetComponent<Text>();
 		colorPicker = GetComponent<EmotionColorPicker>();
 
-		UnityWebRequest www = UnityWebRequest.Get(url +":" + port);
-		yield return www.Send();
-
-		if(www.isNetworkError)
-		{
-			Debug.Log(www.error);
-		}
-		else
-		{
-			if(www.responseCode == 200) {
-				Debug.Log("Form sent complete!");
-				Debug.Log("response:" + www.downloadHandler.text);
-				displayText.text = www.downloadHandler.text;
-			}
-			else {
-				Debug.Log("Error response code: " + www.responseCode.ToString());
-			}
-		}
 		StartCoroutine(SendRequests());
 	}
 	
@@ -57,10 +39,16 @@ public class GetTextFromServer : MonoBehaviour {
 				if(www.responseCode == 200) {
 					Debug.Log("Form sent complete!");
 					Debug.Log("response:" + www.downloadHandler.text);
-					displayText.text = www.downloadHandler.text;
 					fullText.text += www.downloadHandler.text;
 					string[] words = fullText.text.Split(" ".ToCharArray());
+					displayText.text = words[words.Length - 1];
 					colorPicker.UpdateBackgroundColor(words[words.Length - 1]);
+				}
+				else if(www.responseCode == 206) {
+					Debug.Log("Received Guess");
+					string guess = www.downloadHandler.text;
+					string[] words = guess.Split(" ".ToCharArray());
+					displayText.text = words[words.Length - 1];
 				}
 				else if(www.responseCode ==204) {
 					//Debug.Log("no new content!");

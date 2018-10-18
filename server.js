@@ -8,7 +8,6 @@ const OUT_OF_RANGE_ERROR_CODE = 11;
 class Server
 {
 	constructor() {
-		console.log(process.argv[2]);
 		if(process.argv[2]) {
 			this.port = process.argv[2];
 		}
@@ -20,6 +19,7 @@ class Server
 		this.ip = "localhost";
 	
 		this.data = "";
+		this.guess = "";
 		this.record = require('node-record-lpcm16');
 
 		this.speech = require('@google-cloud/speech');
@@ -63,7 +63,7 @@ class Server
 
 	  const request = {
 		config,
-		interimResults: false, //Get interim results from stream
+		interimResults: true, //Get interim results from stream
 	  };
 
 	  // Creates a client
@@ -79,7 +79,8 @@ class Server
 			  ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
 			  : `\n\nReached transcription time limit, press Ctrl+C\n`
 		  );
-		this.data = `${data.results[0].alternatives[0].transcript}`;	 }
+		this.recordData(data);
+		/*this.data = `${data.results[0].alternatives[0].transcript}`;*/	 }
 		);
 
 	  // Start recording and send the microphone input to the Speech API
@@ -97,6 +98,15 @@ class Server
 	  // [END micStreamRecognize]
 	}
 
+	recordData(data) {
+		if(data.results[0].isFinal) {
+			this.data = `${data.results[0].alternatives[0].transcript}`;
+		}
+		else {
+			this.guess = `${data.results[0].alternatives[0].transcript}`;
+		}
+	}
+
 	handleReconnectError(error) {
 		if(error.code === OUT_OF_RANGE_ERROR_CODE) {
 			httpServer.startMicrophoneStream('LINEAR16', 16000, 'en-US');
@@ -108,10 +118,20 @@ class Server
 	processRequest(req, res) {
 		if(req.method === "GET") {
 			if(this.data == "") {
-				res.writeHead(204, {"Content-Type": "text/plain"});
-				res.end("");
+				if(this.guess != "") {
+					// Send Partial code for interim data
+					res.writeHead(206, {"Content-Type" : "text/plain"});
+					res.end(this.guess);
+					this.guess = "";
+				}
+				else {
+					// Send No Content code for no data
+					res.writeHead(204, {"Content-Type": "text/plain"});
+					res.end("");
+				}
 			}
 			else {
+				// Send data for final guess
 				res.writeHead(200, {"Content-Type": "text/plain"});
 				res.end(this.data);
 				this.data = "";
