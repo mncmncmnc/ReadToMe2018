@@ -9,13 +9,16 @@ public class ColorSetter : MonoBehaviour {
 	int curIndex = 0;
 	Image background;
  	Text testString;
+	GameObject colorPicker;
 
 	// Use this for initialization
 	void Start () {
 		testString = GetComponentInChildren<Text>();
 		background = GetComponent<Image>();
+		colorPicker = transform.parent.GetChild(1).gameObject;
+		colorPicker.SetActive(false);
 
-		SetDefaultColors();
+		//SetDefaultColors();
 		UpdateColor();
 	}
 	
@@ -31,6 +34,18 @@ public class ColorSetter : MonoBehaviour {
 			else curIndex = 0;
 			UpdateColor();
 		}
+		if(Input.GetKeyDown(KeyCode.C)) {
+			colorPicker.SetActive(true);
+			colorPicker.GetComponent<ColorWheelControl>().Selection = background.color;
+		}
+		else if(Input.GetKey(KeyCode.C)) {
+			background.color = colorPicker.GetComponent<ColorWheelControl>().Selection;
+		}
+		else if(Input.GetKeyUp(KeyCode.C)) {
+			colorPicker.SetActive(false);
+			SaveColor(testString.text, background.color);
+		}
+			
 	}
 
 	void UpdateColor() {
@@ -54,5 +69,11 @@ public class ColorSetter : MonoBehaviour {
 		PlayerPrefs.SetString("purple","#800080");
 		PlayerPrefs.SetString("orange","#FFa500");
 		PlayerPrefs.SetString("None","#888888");
+	}
+
+	void SaveColor(string colorName, Color newColor) {
+		Debug.Log(ColorUtility.ToHtmlStringRGB(newColor));
+		PlayerPrefs.SetString(colorName, "#" + ColorUtility.ToHtmlStringRGB(newColor));
+		PlayerPrefs.Save();
 	}
 }

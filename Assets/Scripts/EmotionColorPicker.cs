@@ -7,10 +7,11 @@ public class EmotionColorPicker : MonoBehaviour {
 
 	Dictionary<string, Color> colorCodes;
 	Dictionary<string, Color> wordList;
+	public float transitionTime = 1;
 	
 	// Use this for initialization
 	void Start () {
-		CreateColorCodeDict();
+	//	CreateColorCodeDict();
 		wordList = new Dictionary<string, Color>();
 		TextAsset lexicon = Resources.Load<TextAsset>("colorLexicon");
 		string[] lines = lexicon.text.Split("\n".ToCharArray());
@@ -19,13 +20,13 @@ public class EmotionColorPicker : MonoBehaviour {
 			string word = chunks[0].Substring(0, chunks[0].IndexOf("-"));
 			string color = chunks[1].Substring(chunks[1].IndexOf("=") + 1);
 			try {
-				wordList.Add(word, colorCodes[color]);
+				wordList.Add(word, GetColorFromPrefs(color));//colorCodes[color]);
 			}
 			catch { //Debug.Log(word);
 			}
 		}
-			
-		
+		UpdateBackgroundColor("ice");
+		Debug.Log(GetColorFromPrefs("white"));
 	}
 	
 	// Update is called once per frame
@@ -36,12 +37,23 @@ public class EmotionColorPicker : MonoBehaviour {
 	public void UpdateBackgroundColor(string word) {
 		Color newColor = Camera.main.backgroundColor;
 		if(wordList.TryGetValue(word, out newColor)) {
-			Camera.main.backgroundColor = newColor;
+			Debug.Log(newColor);
+			StartCoroutine(LerpBackgroundColor(newColor));
+			//Camera.main.backgroundColor = newColor;
 			Debug.Log("Background updated");
 		}
 		else {
 			Debug.Log(word + " not found in dict");
 		}
+	}
+
+	IEnumerator LerpBackgroundColor(Color newColor) {
+		Color oldColor = Camera.main.backgroundColor;
+		for(float t = 0; t < transitionTime; t += Time.deltaTime) {
+			Camera.main.backgroundColor = Color.Lerp(oldColor, newColor, t / transitionTime);
+			yield return null;
+		}
+		Camera.main.backgroundColor = newColor;
 	}
 
 	void CreateColorCodeDict() {
@@ -72,6 +84,14 @@ public class EmotionColorPicker : MonoBehaviour {
 		string hexCode = dataString.Substring(0,dataString.IndexOf(","));
 		Color newColor;
 		ColorUtility.TryParseHtmlString(hexCode, out newColor);
+		return newColor;
+	}
+
+	Color GetColorFromPrefs(string colorName) {
+		Color newColor = new Color();
+		newColor.r = 1;
+		if(ColorUtility.TryParseHtmlString(colorName, out newColor)) Debug.Log("success");
+		else Debug.Log("Failed");
 		return newColor;
 	}
 }

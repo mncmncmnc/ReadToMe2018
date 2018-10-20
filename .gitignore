@@ -34,3 +34,5 @@ node_modules
 package-lock.json
 /Packages/
 credentials.json	
+*.swp
+*.swo

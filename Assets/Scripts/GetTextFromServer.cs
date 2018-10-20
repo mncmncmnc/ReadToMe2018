@@ -17,12 +17,24 @@ public class GetTextFromServer : MonoBehaviour {
 		displayText = GetComponent<Text>();
 		colorPicker = GetComponent<EmotionColorPicker>();
 
+		//StartNodeServer();
 		StartCoroutine(SendRequests());
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	void StartNodeServer(){
+		System.Diagnostics.ProcessStartInfo proc = new System.Diagnostics.ProcessStartInfo();
+		string path = Application.dataPath.Substring(0,Application.dataPath.Length - 7);
+		Debug.Log(Application.dataPath.Substring(0,Application.dataPath.Length - 7));
+		proc.FileName = "/bin/sh";
+		proc.UseShellExecute = true;
+		proc.CreateNoWindow = false;
+		proc.Arguments = path + "node server.js";
+		System.Diagnostics.Process.Start(proc);
 	}
 
 	IEnumerator SendRequests(){
