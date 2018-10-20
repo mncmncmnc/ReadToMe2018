@@ -45,6 +45,17 @@ public class ColorSetter : MonoBehaviour {
 			colorPicker.SetActive(false);
 			SaveColor(testString.text, background.color);
 		}
+		if(Input.GetKeyDown(KeyCode.F)) {
+			colorPicker.SetActive(true);
+			colorPicker.GetComponent<ColorWheelControl>().Selection = testString.color;
+		}
+		else if(Input.GetKey(KeyCode.F)) {
+			testString.color = colorPicker.GetComponent<ColorWheelControl>().Selection;
+		}
+		else if(Input.GetKeyUp(KeyCode.F)) {
+			colorPicker.SetActive(false);
+			SaveColor(testString.text+"Font", testString.color);
+		}
 			
 	}
 
@@ -53,22 +64,36 @@ public class ColorSetter : MonoBehaviour {
 		Color newColor;
 		ColorUtility.TryParseHtmlString(PlayerPrefs.GetString(newColorString), out newColor);
 	 	background.color = newColor;
+		ColorUtility.TryParseHtmlString(PlayerPrefs.GetString(newColorString+"Font"), out newColor);
 		testString.text = newColorString;
+		testString.color = newColor;
 	}
 
 	public void SetDefaultColors() {
 		PlayerPrefs.SetString("white","#FFFFFF");
+		PlayerPrefs.SetString("whiteFont","#000000");
 		PlayerPrefs.SetString("black","#000000");
+		PlayerPrefs.SetString("blackFont","#FFFFFF");
 		PlayerPrefs.SetString("red","#FF0000");
+		PlayerPrefs.SetString("redFont","#FFFFFF");
 		PlayerPrefs.SetString("green","#00FF00");
+		PlayerPrefs.SetString("greenFont","#FFFFFF");
 		PlayerPrefs.SetString("yellow","#FFFF00");
+		PlayerPrefs.SetString("yellowFont","#000000");
 		PlayerPrefs.SetString("blue","#0000FF");
+		PlayerPrefs.SetString("blueFont","#FFFFFF");
 		PlayerPrefs.SetString("grey","#AAAAAA");
+		PlayerPrefs.SetString("greyFont","#000000");
 		PlayerPrefs.SetString("brown","#a52A2A");
+		PlayerPrefs.SetString("brownFont","#FFFFFF");
 		PlayerPrefs.SetString("pink","#FFC0CB");
+		PlayerPrefs.SetString("pinkFont","#000000");
 		PlayerPrefs.SetString("purple","#800080");
+		PlayerPrefs.SetString("purpleFont","#FFFFFF");
 		PlayerPrefs.SetString("orange","#FFa500");
+		PlayerPrefs.SetString("orangeFont","#000000");
 		PlayerPrefs.SetString("None","#888888");
+		PlayerPrefs.SetString("NoneFont","#000000");
 	}
 
 	void SaveColor(string colorName, Color newColor) {
