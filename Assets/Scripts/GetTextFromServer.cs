@@ -12,6 +12,7 @@ public class GetTextFromServer : MonoBehaviour {
 	public Text fullText;
 	bool running;
 	EmotionColorPicker colorPicker;
+	public float transitionTime = 1;
 	
 	// Use this for initialization
 	void Start () {
@@ -79,7 +80,9 @@ public class GetTextFromServer : MonoBehaviour {
 					fullText.text += www.downloadHandler.text;
 					string[] words = fullText.text.Split(" ".ToCharArray());
 					displayText.text = words[words.Length - 1];
-					colorPicker.UpdateBackgroundColor(words[words.Length - 1]);
+					//colorPicker.UpdateBackgroundColor(words[words.Length - 1]);
+					ColorScheme newScheme = colorPicker.GetColorSchemeForWord(words[words.Length - 1]);
+					StartCoroutine(LerpColors(newScheme));
 				}
 				else if(www.responseCode == 206) {
 					Debug.Log("Received Guess");
@@ -95,5 +98,23 @@ public class GetTextFromServer : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	IEnumerator LerpColors(ColorScheme newColorScheme) {
+		Color oldBackgroundColor = Camera.main.backgroundColor;
+		Color oldTextColor = displayText.color;
+		for(float t = 0; t < transitionTime; t += Time.deltaTime) {
+			Camera.main.backgroundColor = Color.Lerp(oldBackgroundColor, newColorScheme.background, t / transitionTime);
+			displayText.color = Color.Lerp(oldTextColor, newColorScheme.font, t / transitionTime);
+			fullText.color = Color.Lerp(oldTextColor, newColorScheme.font, t / transitionTime);
+			yield return null;
+		}
+		Camera.main.backgroundColor = newColorScheme.background;
+		displayText.color = newColorScheme.font;
+		fullText.color = newColorScheme.font;
+	}
+
+	void OnApplicationQuit() {
+		StartCoroutine(ChangeServerStatus("stop"));
 	}
 }

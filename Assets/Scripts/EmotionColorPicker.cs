@@ -6,13 +6,13 @@ using System.IO;
 public class EmotionColorPicker : MonoBehaviour {
 
 	Dictionary<string, Color> colorCodes;
-	Dictionary<string, Color> wordList;
+	Dictionary<string, ColorScheme> wordList;
 	public float transitionTime = 1;
 	
 	// Use this for initialization
 	void Start () {
 	//	CreateColorCodeDict();
-		wordList = new Dictionary<string, Color>();
+		wordList = new Dictionary<string, ColorScheme>();
 		TextAsset lexicon = Resources.Load<TextAsset>("colorLexicon");
 		string[] lines = lexicon.text.Split("\n".ToCharArray());
 		for(int i = 0; i < lines.Length; i++) {
@@ -32,14 +32,24 @@ public class EmotionColorPicker : MonoBehaviour {
 		
 	}
 
-	public void UpdateBackgroundColor(string word) {
-		Color newColor = Camera.main.backgroundColor;
-		if(wordList.TryGetValue(word, out newColor)) {
-			Debug.Log(newColor);
-			StartCoroutine(LerpBackgroundColor(newColor));
+	public ColorScheme GetColorSchemeForWord(string word) {
+		ColorScheme newColorScheme = new ColorScheme(Camera.main.backgroundColor, Color.black);
+		if(wordList.TryGetValue(word.ToLower(), out newColorScheme)) {
+			Debug.Log("Found color scheme");
 		}
 		else {
-			Debug.Log(word + " not found in dict");
+			Debug.Log(word.ToLower() + " not found in dict");
+		}
+		return newColorScheme;
+	}
+
+	public void UpdateBackgroundColor(string word) {
+		ColorScheme newColorScheme = new ColorScheme(Camera.main.backgroundColor, Color.black);
+		if(wordList.TryGetValue(word.ToLower(), out newColorScheme)) {
+			StartCoroutine(LerpBackgroundColor(newColorScheme.background));
+		}
+		else {
+			Debug.Log(word.ToLower() + " not found in dict");
 		}
 	}
 
@@ -83,11 +93,24 @@ public class EmotionColorPicker : MonoBehaviour {
 		return newColor;
 	}
 
-	Color GetColorFromPrefs(string colorName) {
-		Color newColor = new Color();
-		newColor.r = 1;
+	ColorScheme GetColorFromPrefs(string colorName) {
+		Color backgroundColor = new Color();
+		Color fontColor = new Color();
 		string hexCode = PlayerPrefs.GetString(colorName);
-		ColorUtility.TryParseHtmlString(hexCode, out newColor);
-		return newColor;
+		ColorUtility.TryParseHtmlString(hexCode, out backgroundColor);
+		hexCode = PlayerPrefs.GetString(colorName + "Font");
+		ColorUtility.TryParseHtmlString(hexCode, out fontColor);
+		return new ColorScheme(backgroundColor, fontColor);
 	}
+
+	
 }
+
+public struct ColorScheme {
+		public Color background, font;
+
+		public ColorScheme(Color backgroundColor, Color fontColor){
+			background = backgroundColor;
+			font = fontColor;
+		}
+	}
