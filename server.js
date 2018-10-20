@@ -17,6 +17,7 @@ class Server
 		console.log("Hosting server on port " + this.port + " (Pass a different argument to change port)");
 
 		this.ip = "localhost";
+		this.running = false;
 	
 		this.data = "";
 		this.guess = "";
@@ -37,7 +38,7 @@ class Server
 		});
 		console.log("Server created");
 
-		this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
+		//this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
 		this.listenForConnections();
 	}
 
@@ -50,7 +51,7 @@ class Server
 	  // [START micStreamRecognize]
 
 	  // Node-Record-lpcm16
-	  const record = require('node-record-lpcm16');
+	  //const record = require('node-record-lpcm16');
 
 	  // Imports the Google Cloud client library
 	  const speech = require('@google-cloud/speech');
@@ -84,7 +85,7 @@ class Server
 		);
 
 	  // Start recording and send the microphone input to the Speech API
-	  record
+	  this.record
 		.start({
 		  sampleRateHertz: 16000,
 		  threshold: 0, //silence threshold
@@ -108,7 +109,8 @@ class Server
 	}
 
 	handleReconnectError(error) {
-		if(error.code === OUT_OF_RANGE_ERROR_CODE) {
+		if(!this.running) return;
+		if(error.code === OUT_OF_RANGE_ERROR_CODE ) {
 			httpServer.startMicrophoneStream('LINEAR16', 16000, 'en-US');
 		//	this.initializeStream();
 		}
@@ -116,6 +118,36 @@ class Server
 	}
 
 	processRequest(req, res) {
+		if(req.method === "POST") {
+			var body = ""
+			req.on("data", (data) => {
+				body += data;
+			});
+			req.on("end", () => {
+				console.log("received data: " + body);
+				var vars = body.split("&");
+				for (var t = 0; t < vars.length; t++)
+                {
+                    var pair = vars[t].split("=");
+                    var key = decodeURIComponent(pair[0]);
+                    var val = decodeURIComponent(pair[1]);
+					if(key == "action" && val == "start") {
+						this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
+						this.running = true;
+						console.log("starting stream");
+					}	
+					
+					if(key == "action" && val == "stop") {
+						this.record.stop();
+						this.running = false;
+						console.log("stopping stream");
+					}
+                }
+                // Tell Unity that we received the data OK
+                res.writeHead(200, {"Content-Type": "text/plain"});
+                res.end("OK");
+            });
+		}
 		if(req.method === "GET") {
 			if(this.data == "") {
 				if(this.guess != "") {

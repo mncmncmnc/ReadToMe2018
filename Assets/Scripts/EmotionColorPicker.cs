@@ -25,8 +25,6 @@ public class EmotionColorPicker : MonoBehaviour {
 			catch { //Debug.Log(word);
 			}
 		}
-		UpdateBackgroundColor("ice");
-		Debug.Log(GetColorFromPrefs("white"));
 	}
 	
 	// Update is called once per frame
@@ -39,8 +37,6 @@ public class EmotionColorPicker : MonoBehaviour {
 		if(wordList.TryGetValue(word, out newColor)) {
 			Debug.Log(newColor);
 			StartCoroutine(LerpBackgroundColor(newColor));
-			//Camera.main.backgroundColor = newColor;
-			Debug.Log("Background updated");
 		}
 		else {
 			Debug.Log(word + " not found in dict");
@@ -90,8 +86,8 @@ public class EmotionColorPicker : MonoBehaviour {
 	Color GetColorFromPrefs(string colorName) {
 		Color newColor = new Color();
 		newColor.r = 1;
-		if(ColorUtility.TryParseHtmlString(colorName, out newColor)) Debug.Log("success");
-		else Debug.Log("Failed");
+		string hexCode = PlayerPrefs.GetString(colorName);
+		ColorUtility.TryParseHtmlString(hexCode, out newColor);
 		return newColor;
 	}
 }

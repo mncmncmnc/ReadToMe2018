@@ -10,20 +10,31 @@ public class GetTextFromServer : MonoBehaviour {
 	private static string port = "3000";
 	Text displayText;
 	public Text fullText;
+	bool running;
 	EmotionColorPicker colorPicker;
 	
 	// Use this for initialization
 	void Start () {
 		displayText = GetComponent<Text>();
 		colorPicker = GetComponent<EmotionColorPicker>();
+		running = false;
 
 		//StartNodeServer();
-		StartCoroutine(SendRequests());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(Input.GetKeyDown(KeyCode.Space)) {
+			if(running) {
+				StartCoroutine(ChangeServerStatus("stop"));
+				running = false;
+			}
+			else {
+				StartCoroutine(ChangeServerStatus("start"));
+				running = true;
+				StartCoroutine(SendRequests());
+			}
+		}	
 	}
 
 	void StartNodeServer(){
@@ -37,8 +48,22 @@ public class GetTextFromServer : MonoBehaviour {
 		System.Diagnostics.Process.Start(proc);
 	}
 
+	IEnumerator ChangeServerStatus(string action) {
+		WWWForm form = new WWWForm();
+		form.AddField("action", action);
+		UnityWebRequest www = UnityWebRequest.Post(url + ":" + port, form);
+		yield return www.Send();
+
+		if(www.isNetworkError) {
+			Debug.Log(www.error);
+		}
+		else {
+			Debug.Log("Server " + action);
+		}
+	}
+
 	IEnumerator SendRequests(){
-		while(true) {
+		while(running) {
 			UnityWebRequest www = UnityWebRequest.Get(url +":" + port);
 			yield return www.Send();
 
