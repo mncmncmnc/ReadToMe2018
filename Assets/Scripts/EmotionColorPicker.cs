@@ -10,7 +10,7 @@ public class EmotionColorPicker : MonoBehaviour {
 	public float transitionTime = 1;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 	//	CreateColorCodeDict();
 		wordList = new Dictionary<string, ColorScheme>();
 		TextAsset lexicon = Resources.Load<TextAsset>("colorLexicon");
