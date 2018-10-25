@@ -12,6 +12,9 @@ public class NodeServerManager : MonoBehaviour {
 	EmotionColorPicker colorPicker;
 	public static string confirmedFullText;
 	public static string currentPossibleText;
+
+	public delegate void APICallReturnedDelegate();
+	public static APICallReturnedDelegate APIReturned;
 	
 	// Use this for initialization
 	void Awake () {
@@ -84,19 +87,13 @@ public class NodeServerManager : MonoBehaviour {
 				if(www.responseCode == 200) {
 					Debug.Log("Form sent complete!");
 					Debug.Log("response:" + www.downloadHandler.text);
-					/*fullText.text += www.downloadHandler.text;
-					string[] words = fullText.text.Split(" ".ToCharArray());
-					displayText.text = words[words.Length - 1];
-					ColorScheme newScheme = colorPicker.GetColorSchemeForWord(words[words.Length - 1]);
-					StartCoroutine(LerpColors(newScheme));*/
 					confirmedFullText += www.downloadHandler.text;
+					APIReturned();
 				}
 				else if(www.responseCode == 206) {
 					Debug.Log("Received Guess");
-					/*string guess = www.downloadHandler.text;
-					string[] words = guess.Split(" ".ToCharArray());
-					displayText.text = words[words.Length - 1];*/
 					currentPossibleText = www.downloadHandler.text;
+					APIReturned();
 				}
 				else if(www.responseCode ==204) {
 					//Debug.Log("no new content!");

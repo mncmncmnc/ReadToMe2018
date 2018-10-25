@@ -14,10 +14,15 @@ public class TextDisplayController : MonoBehaviour {
 	void Start () {
 		displayText = GetComponent<Text>();
 		transitioningBackgroundColor = false;
+		NodeServerManager.APIReturned += UpdateText;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+	}
+
+	void UpdateText() {
 		fullText.text = NodeServerManager.confirmedFullText + " " + NodeServerManager.currentPossibleText;
 		if(!transitioningBackgroundColor) {
 			string[] separatedWords = fullText.text.Split(" ".ToCharArray());
@@ -42,5 +47,9 @@ public class TextDisplayController : MonoBehaviour {
 		displayText.color = newColorScheme.font;
 		fullText.color = newColorScheme.font;
 		transitioningBackgroundColor = false;
+	}
+
+	void OnDisable() {
+		NodeServerManager.APIReturned -= UpdateText;
 	}
 }
