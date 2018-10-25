@@ -295,9 +295,7 @@ GameObject:
   - component: {fileID: 738396790}
   - component: {fileID: 738396793}
   - component: {fileID: 738396792}
-  - component: {fileID: 738396791}
-  - component: {fileID: 738396794}
-  - component: {fileID: 738396795}
+  - component: {fileID: 738396796}
   m_Layer: 5
   m_Name: CurWord
   m_TagString: Untagged
@@ -323,19 +321,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &738396791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 738396789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc13d86c55c0144e8bfdc854dbfa1099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fullText: {fileID: 979110214}
-  transitionTime: 1
 --- !u!114 &738396792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +361,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 738396789}
   m_CullTransparentMesh: 0
---- !u!114 &738396794
+--- !u!114 &738396796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -384,16 +369,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 738396789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb448734ba404f9c89a3b9fba19c935, type: 3}
+  m_Script: {fileID: 11500000, guid: 6eefd4d746da24a5493bed20f3ef4570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fullText: {fileID: 979110214}
   transitionTime: 1
---- !u!114 &738396795
+  colorPicker: {fileID: 759960590}
+--- !u!1 &759960588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 759960592}
+  - component: {fileID: 759960591}
+  - component: {fileID: 759960590}
+  - component: {fileID: 759960589}
+  m_Layer: 0
+  m_Name: DataManagement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &759960589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 738396789}
+  m_GameObject: {fileID: 759960588}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51f8f979447c54247bcba0d5441e6081, type: 3}
@@ -410,7 +415,7 @@ MonoBehaviour:
   _intEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 738396791}
+      - m_Target: {fileID: 759960591}
         m_MethodName: ChangeRunningStatus
         m_Mode: 0
         m_Arguments:
@@ -458,6 +463,42 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: OscJack.OscEventReceiver+StringEvent, jp.keijiro.osc-jack.Runtime,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &759960590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759960588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb448734ba404f9c89a3b9fba19c935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionTime: 1
+--- !u!114 &759960591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759960588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc13d86c55c0144e8bfdc854dbfa1099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &759960592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759960588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 325.33618, y: 143.41824, z: 0.48114514}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912708674
 GameObject:
   m_ObjectHideFlags: 0
