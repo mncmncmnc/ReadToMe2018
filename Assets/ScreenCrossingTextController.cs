@@ -9,31 +9,37 @@ public class ScreenCrossingTextController : MonoBehaviour {
 	void Start () {
 		canvas = GameObject.Find("Canvas");
 		NodeServerManager.APIReturned += CreateNewText;
-		CreateNewText();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(Input.GetKeyDown(KeyCode.A)) CreateNewText();
 	}
 
 	void CreateNewText() {
 		Debug.Log("Received word");
-		//fullText.text = NodeServerManager.confirmedFullText + " " + NodeServerManager.currentPossibleText;
 		GameObject text = Instantiate(Resources.Load<GameObject>("prefabs/TravelingText"));
 		text.transform.SetParent(canvas.transform, false);
 		RectTransform textRect = text.GetComponent<RectTransform>();
-		switch(Random.Range(0,2)) {
+		ScreenCrossingText crossingText = text.GetComponent<ScreenCrossingText>();
+		switch(Random.Range(0,4)) {
 			case 0:
 				textRect.anchoredPosition = new Vector2(Screen.width * Random.value, (Screen.height / 2) + 100);
-				textRect.Rotate(new Vector3(0,0,90));
-				Debug.Log("Positioning Above");
+				crossingText.InitializeTravel(90, 5);
 				break;
 			case 1:
 				textRect.anchoredPosition = new Vector2(Screen.width * Random.value, -(Screen.height / 2) - 100);
-				Debug.Log("Positioning Below");
-				textRect.Rotate(new Vector3(0,0,-90));
+				crossingText.InitializeTravel(-90, 5);
+				break;
+			case 2:
+				textRect.anchoredPosition = new Vector2(-(Screen.width / 2) - 100, Screen.height * Random.value );
+				crossingText.InitializeTravelWithVector(0, 5, new Vector2(1,0));
+				break;
+			case 3:
+				textRect.anchoredPosition = new Vector2((Screen.width / 2) + 100, Screen.height * Random.value );
+				crossingText.InitializeTravelWithVector(0, 5, new Vector2(-1, 0));
 				break;
 		}
+		crossingText.SetText(NodeServerManager.GetLastConfirmedWord());
 	}
 }

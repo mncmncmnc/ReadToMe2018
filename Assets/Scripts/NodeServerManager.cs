@@ -105,6 +105,16 @@ public class NodeServerManager : MonoBehaviour {
 		}
 	}
 
+	public static string GetLastConfirmedWord() {
+		string[] words = NodeServerManager.confirmedFullText.Split(' ');
+		return words[words.Length - 1];
+	}
+	
+	public static string GetLastUnconfirmedWord() {
+		string[] words = NodeServerManager.currentPossibleText.Split(' ');
+		return words[words.Length - 1];
+	}
+
 	void OnApplicationQuit() {
 		StartCoroutine(ChangeServerStatus("stop"));
 	}
