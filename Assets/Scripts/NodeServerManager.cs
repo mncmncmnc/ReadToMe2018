@@ -109,10 +109,18 @@ public class NodeServerManager : MonoBehaviour {
 		string[] words = NodeServerManager.confirmedFullText.Split(' ');
 		return words[words.Length - 1];
 	}
+
+	public static string[] GetConfirmedWords() {
+		return NodeServerManager.confirmedFullText.Split(' ');
+	}
 	
 	public static string GetLastUnconfirmedWord() {
 		string[] words = NodeServerManager.currentPossibleText.Split(' ');
 		return words[words.Length - 1];
+	}
+
+	public static string[] GetUnconfirmedWords() {
+		return NodeServerManager.currentPossibleText.Split(' ');
 	}
 
 	void OnApplicationQuit() {

@@ -40,6 +40,6 @@ public class ScreenCrossingTextController : MonoBehaviour {
 				crossingText.InitializeTravelWithVector(0, 5, new Vector2(-1, 0));
 				break;
 		}
-		crossingText.SetText(NodeServerManager.GetLastConfirmedWord());
+		crossingText.SetText(NodeServerManager.GetLastUnconfirmedWord());
 	}
 }

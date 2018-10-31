@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1117511206530030}
+  m_IsPrefabAsset: 1
+--- !u!1 &1117511206530030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4499541453548486}
+  - component: {fileID: 114103391786550586}
+  - component: {fileID: 114429183523453208}
+  - component: {fileID: 114969091914064340}
+  m_Layer: 0
+  m_Name: DataManagement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4499541453548486
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117511206530030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 325.33618, y: 143.41824, z: 0.48114514}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114103391786550586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117511206530030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc13d86c55c0144e8bfdc854dbfa1099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114429183523453208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117511206530030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb448734ba404f9c89a3b9fba19c935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionTime: 1
+--- !u!114 &114969091914064340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117511206530030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f8f979447c54247bcba0d5441e6081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _udpPort: 9000
+  _oscAddress: /1/toggle1
+  _dataType: 1
+  _event:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _intEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114103391786550586}
+        m_MethodName: ChangeRunningStatus
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: OscJack.OscEventReceiver+IntEvent, jp.keijiro.osc-jack.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _floatEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+FloatEvent, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _vector2Event:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+Vector2Event, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _vector3Event:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+Vector3Event, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _vector4Event:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+Vector4Event, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _vector2IntEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+Vector2IntEvent, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _vector3IntEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+Vector3IntEvent, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _stringEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OscJack.OscEventReceiver+StringEvent, jp.keijiro.osc-jack.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
