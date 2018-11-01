@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TextTreeGenerator : MonoBehaviour {
 
-	public string testString = "Behold The Hippopotamaus We Laugh At How He Looks At Us";
+	public string testString = "A The Hippopotamaus We Laugh At How He Looks At Us";
 	List<Text> segments;
 	List<string> branchedWords;
 	float charSize;
@@ -15,8 +15,8 @@ public class TextTreeGenerator : MonoBehaviour {
 	void Start () {
 		segments = new List<Text>();
 		branchedWords = new List<string>();
-		string[] words = testString.Split(" ".ToCharArray());
-		/*CreateTreeSegment(words[0], new Vector2(Screen.width / 2, -Screen.height / 2), 90);
+		/*string[] words = testString.Split(" ".ToCharArray());
+		CreateTreeSegment(words[0], new Vector2(Screen.width / 2, -Screen.height / 2), 90);
 		for(int i = 1; i < words.Length; i++) {
 			AddToTree(words[i]);
 		}*/
@@ -35,19 +35,16 @@ public class TextTreeGenerator : MonoBehaviour {
 		newSegment.text = word;
 		newSegment.rectTransform.rotation = Quaternion.Euler(0, 0, rotation);
 		newSegment.rectTransform.anchoredPosition = position;
-		Debug.Log(newSegment.rectTransform.rect.width);	
-		newSegment.gameObject.AddComponent<ContentSizeFitter>();
-		newSegment.gameObject.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-		Debug.Log(newSegment.rectTransform.rect.width);	
+		newSegment.rectTransform.sizeDelta = new Vector2(-600f + (15.5f * word.Length), newSegment.rectTransform.sizeDelta.y);
 		segments.Add(newSegment);
 	}
 
 	void CheckForNewTreeSegments() {
-		string[] confirmedWords = NodeServerManager.GetConfirmedWords();
-		for(int i = 0; i < confirmedWords.Length; i++) {
-			if(branchedWords.IndexOf(confirmedWords[i]) == -1) {
-				branchedWords.Add(confirmedWords[i]);
-				AddToTree(confirmedWords[i]);
+		string[] words = NodeServerManager.GetAllWords();
+		for(int i = 0; i < words.Length; i++) {
+			if(words[i] != " " && branchedWords.IndexOf(words[i]) == -1) {
+				branchedWords.Add(words[i]);
+				AddToTree(words[i]);
 			}
 		}
 	}

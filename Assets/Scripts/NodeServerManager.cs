@@ -123,6 +123,12 @@ public class NodeServerManager : MonoBehaviour {
 		return NodeServerManager.currentPossibleText.Split(' ');
 	}
 
+	public static string[] GetAllWords() {
+		List<string> tempList = new List<string>(GetConfirmedWords());
+		tempList.AddRange(GetUnconfirmedWords());
+		return tempList.ToArray();
+	}
+
 	void OnApplicationQuit() {
 		StartCoroutine(ChangeServerStatus("stop"));
 	}

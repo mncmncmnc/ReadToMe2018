@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testString: Behold The Hippopotamaus We Laugh At How He Looks At Us
-  widthAdjustment: 0
+  widthAdjustment: 55
 --- !u!1 &1089082287
 GameObject:
   m_ObjectHideFlags: 0
