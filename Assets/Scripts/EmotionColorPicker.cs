@@ -27,7 +27,7 @@ public class EmotionColorPicker : MonoBehaviour {
 	}
 
 	public static ColorScheme GetColorSchemeForWord(string word) {
-		ColorScheme newColorScheme = new ColorScheme(Camera.main.backgroundColor, Color.black);
+		ColorScheme newColorScheme = new ColorScheme("None", Camera.main.backgroundColor, Color.black);
 		if(wordList.TryGetValue(word.ToLower(), out newColorScheme)) {
 			Debug.Log("Found color scheme");
 		}
@@ -44,16 +44,18 @@ public class EmotionColorPicker : MonoBehaviour {
 		ColorUtility.TryParseHtmlString(hexCode, out backgroundColor);
 		hexCode = PlayerPrefs.GetString(colorName + "Font");
 		ColorUtility.TryParseHtmlString(hexCode, out fontColor);
-		return new ColorScheme(backgroundColor, fontColor);
+		return new ColorScheme(colorName, backgroundColor, fontColor);
 	}
 
 	
 }
 
 public struct ColorScheme {
+		public string colorName;
 		public Color background, font;
 
-		public ColorScheme(Color backgroundColor, Color fontColor){
+		public ColorScheme(string colorNameString, Color backgroundColor, Color fontColor){
+			colorName = colorNameString;
 			background = backgroundColor;
 			font = fontColor;
 		}
