@@ -9,11 +9,12 @@ public class RainbowRunner : MonoBehaviour {
 	public RawImage backgroundColors;
 	public Text currentWord;
 	Texture2D backgroundTexture;
+	public int textureSize;
 	List<string> coloredWords;
 
 	// Use this for initialization
 	void Start () {
-		backgroundTexture = new Texture2D(128, 128);
+		backgroundTexture = new Texture2D(textureSize, textureSize);
 		backgroundColors.texture = backgroundTexture;
 		coloredWords = new List<string>();
 		NodeServerManager.APIReturned += CheckNewWords;
@@ -29,7 +30,8 @@ public class RainbowRunner : MonoBehaviour {
 		string[] confirmedWords = NodeServerManager.GetConfirmedWords();
 		foreach(string word in confirmedWords){
 			ColorScheme wordColor = EmotionColorPicker.GetColorSchemeForWord(word);
-			if(wordColor.colorName != "None" && coloredWords.IndexOf(word) == -1) {
+			if(word != "" && wordColor.colorName != "None" && wordColor.colorName != "error" && 
+										coloredWords.IndexOf(word) == -1) {
 				coloredWords.Add(word);
 			}
 		}
@@ -42,13 +44,17 @@ public class RainbowRunner : MonoBehaviour {
 		
 
 	void UpdateTextureColors(){
+		if(coloredWords.Count == 0) return;
 		Color[] pixelData = backgroundTexture.GetPixels();
+		int iterator = pixelData.Length - 1;
+		int numRows = textureSize / coloredWords.Count;
 		for(int i = 0; i < coloredWords.Count; i++) {
 			ColorScheme curColor = EmotionColorPicker.GetColorSchemeForWord(coloredWords[i]);
-			int numRows = 128 / coloredWords.Count;
+			Debug.Log(curColor.colorName);
 			for(int j = 0; j < numRows; j++){
-				for(int k = 0; k < 128; k++) {
-					pixelData[(numRows *(i+j)) + k] = curColor.background;
+				for(int k = 0; k < textureSize; k++) {
+					pixelData[iterator] = curColor.background;
+					iterator--;
 				}
 			}
 		}

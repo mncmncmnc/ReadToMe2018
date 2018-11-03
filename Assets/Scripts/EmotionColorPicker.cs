@@ -33,6 +33,7 @@ public class EmotionColorPicker : MonoBehaviour {
 		}
 		else {
 			Debug.Log(word.ToLower() + " not found in dict");
+			newColorScheme.colorName = "error";
 		}
 		return newColorScheme;
 	}

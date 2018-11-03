@@ -134,6 +134,8 @@ class Server
 					if(key == "action" && val == "start") {
 						this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
 						this.running = true;
+						this.guess = "";
+						this.data = "";
 						console.log("starting stream");
 					}	
 					
