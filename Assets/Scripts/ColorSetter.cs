@@ -18,7 +18,9 @@ public class ColorSetter : MonoBehaviour {
 		colorPicker = transform.parent.GetChild(1).gameObject;
 		colorPicker.SetActive(false);
 
-		//SetDefaultColors();
+		if(DefaultColorsNotSet()) {
+			SetDefaultColors();
+		}
 		UpdateColor();
 	}
 	
@@ -69,6 +71,13 @@ public class ColorSetter : MonoBehaviour {
 		testString.color = newColor;
 	}
 
+	bool DefaultColorsNotSet() {
+		if(PlayerPrefs.GetString("white", "error") == "error") {
+			return true;
+		}
+		return false;
+	}
+		
 	public void SetDefaultColors() {
 		PlayerPrefs.SetString("white","#FFFFFF");
 		PlayerPrefs.SetString("whiteFont","#000000");
@@ -79,21 +88,22 @@ public class ColorSetter : MonoBehaviour {
 		PlayerPrefs.SetString("green","#00FF00");
 		PlayerPrefs.SetString("greenFont","#FFFFFF");
 		PlayerPrefs.SetString("yellow","#FFFF00");
-		PlayerPrefs.SetString("yellowFont","#000000");
+		PlayerPrefs.SetString("yellowFont","#FFFFFF");
 		PlayerPrefs.SetString("blue","#0000FF");
 		PlayerPrefs.SetString("blueFont","#FFFFFF");
 		PlayerPrefs.SetString("grey","#AAAAAA");
-		PlayerPrefs.SetString("greyFont","#000000");
+		PlayerPrefs.SetString("greyFont","#FFFFFF");
 		PlayerPrefs.SetString("brown","#a52A2A");
 		PlayerPrefs.SetString("brownFont","#FFFFFF");
 		PlayerPrefs.SetString("pink","#FFC0CB");
-		PlayerPrefs.SetString("pinkFont","#000000");
+		PlayerPrefs.SetString("pinkFont","#FFFFFF");
 		PlayerPrefs.SetString("purple","#800080");
 		PlayerPrefs.SetString("purpleFont","#FFFFFF");
 		PlayerPrefs.SetString("orange","#FFa500");
-		PlayerPrefs.SetString("orangeFont","#000000");
+		PlayerPrefs.SetString("orangeFont","#FFFFFF");
 		PlayerPrefs.SetString("None","#888888");
 		PlayerPrefs.SetString("NoneFont","#000000");
+		PlayerPrefs.Save();
 	}
 
 	void SaveColor(string colorName, Color newColor) {

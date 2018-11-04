@@ -41,7 +41,10 @@ public class EmotionColorPicker : MonoBehaviour {
 	ColorScheme GetColorFromPrefs(string colorName) {
 		Color backgroundColor = new Color();
 		Color fontColor = new Color();
-		string hexCode = PlayerPrefs.GetString(colorName);
+		string hexCode = PlayerPrefs.GetString(colorName, "error");
+		if(hexCode == "error") {
+			Debug.LogError("No Colors have been set, have you run the ColorConfig scene?");
+		}
 		ColorUtility.TryParseHtmlString(hexCode, out backgroundColor);
 		hexCode = PlayerPrefs.GetString(colorName + "Font");
 		ColorUtility.TryParseHtmlString(hexCode, out fontColor);
