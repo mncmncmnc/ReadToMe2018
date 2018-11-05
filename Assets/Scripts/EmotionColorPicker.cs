@@ -15,7 +15,9 @@ public class EmotionColorPicker : MonoBehaviour {
 		TextAsset lexicon = Resources.Load<TextAsset>("colorLexicon");
 		string[] lines = lexicon.text.Split("\n".ToCharArray());
 		for(int i = 0; i < lines.Length; i++) {
+			// Split each line by tabs
 			string[] chunks = lines[i].Split("\t".ToCharArray());
+			// Have to do some gymnastics because of the lexicon's format
 			string word = chunks[0].Substring(0, chunks[0].IndexOf("-"));
 			string color = chunks[1].Substring(chunks[1].IndexOf("=") + 1);
 			try {
@@ -26,21 +28,26 @@ public class EmotionColorPicker : MonoBehaviour {
 		}
 	}
 
+	// ColorScheme GetColorSchemeForWord
+    // Looks up the color for the word, returns in a ColorScheme
 	public static ColorScheme GetColorSchemeForWord(string word) {
-		ColorScheme newColorScheme = new ColorScheme("None", Camera.main.backgroundColor, Color.black);
+		// Initialize new color scheme with current colors
+		ColorScheme newColorScheme = new ColorScheme("None", Camera.main.backgroundColor, Color.white);
+		// TryGetValue will update our color scheme if it exists
 		if(wordList.TryGetValue(word.ToLower(), out newColorScheme)) {
 			Debug.Log("Found color scheme");
 		}
 		else {
 			Debug.Log(word.ToLower() + " not found in dict");
+		// Set colorName to error to broadcast nothing was found
 			newColorScheme.colorName = "error";
 		}
 		return newColorScheme;
 	}
 
 	ColorScheme GetColorFromPrefs(string colorName) {
-		Color backgroundColor = new Color();
-		Color fontColor = new Color();
+		Color backgroundColor = Color.white;
+		Color fontColor = Color.black;
 		string hexCode = PlayerPrefs.GetString(colorName, "error");
 		if(hexCode == "error") {
 			Debug.LogError("No Colors have been set, have you run the ColorConfig scene?");
@@ -50,8 +57,6 @@ public class EmotionColorPicker : MonoBehaviour {
 		ColorUtility.TryParseHtmlString(hexCode, out fontColor);
 		return new ColorScheme(colorName, backgroundColor, fontColor);
 	}
-
-	
 }
 
 public struct ColorScheme {

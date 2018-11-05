@@ -21,7 +21,6 @@ public class NodeServerManager : MonoBehaviour {
 		running = 0;
 		confirmedFullText = "";
 		currentPossibleText = "";
-		//StartNodeServer();
 	}
 	
 	// Update is called once per frame
@@ -88,6 +87,7 @@ public class NodeServerManager : MonoBehaviour {
 					Debug.Log("Form sent complete!");
 					Debug.Log("response:" + www.downloadHandler.text);
 					confirmedFullText += www.downloadHandler.text;
+					currentPossibleText = "";
 					APIReturned();
 				}
 				else if(www.responseCode == 206) {

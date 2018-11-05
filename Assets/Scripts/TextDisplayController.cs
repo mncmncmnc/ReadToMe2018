@@ -23,13 +23,20 @@ public class TextDisplayController : MonoBehaviour {
 	}
 
 	void UpdateText() {
+		// Fill out text as it comes in
 		fullText.text = NodeServerManager.confirmedFullText + " " + NodeServerManager.currentPossibleText;
+		// Prevent ourselves from transitioning mid transition
 		if(!transitioningBackgroundColor) {
+			// Cut words into an arry and then look at last word of array
 			string[] separatedWords = fullText.text.Split(" ".ToCharArray());
 			string currentWord = separatedWords[separatedWords.Length - 1];
-			displayText.text = currentWord;
-			if(currentWord != "")
-				StartCoroutine(LerpColors(EmotionColorPicker.GetColorSchemeForWord(currentWord)));
+			if(currentWord != ""){
+				displayText.text = currentWord;
+				ColorScheme newScheme = EmotionColorPicker.GetColorSchemeForWord(currentWord);
+				if(newScheme.colorName != "error") {
+					StartCoroutine(LerpColors(newScheme));
+				}
+			}
 		}
 	}
 

@@ -26,7 +26,7 @@ public class RainbowRunner : MonoBehaviour {
 	}
 	
 	void CheckNewWords() {
-		fullText.text = NodeServerManager.confirmedFullText;
+		fullText.text = NodeServerManager.confirmedFullText + " " + NodeServerManager.currentPossibleText;
 		string[] confirmedWords = NodeServerManager.GetConfirmedWords();
 		foreach(string word in confirmedWords){
 			ColorScheme wordColor = EmotionColorPicker.GetColorSchemeForWord(word);

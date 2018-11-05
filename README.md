@@ -25,6 +25,13 @@ You will need to install sox manually via [binary files] (http://sourceforge.net
 
 Once installed, you must [add sox to your path](https://stackoverflow.com/questions/17667491/how-to-use-sox-in-windows#17668191)
 
+Lastly you will need to set an enviornment variable for your credentials. In Power Shell you can enter the following
+
+```
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\Path\To\The\Repo\credentials.json"
+```
+Replacing the path with the path to your project. More info on this can be found [here](https://cloud.google.com/docs/authentication/getting-started)
+
 # Using the Project
 
 ## Setup

@@ -169,6 +169,7 @@ class Server
 				res.writeHead(200, {"Content-Type": "text/plain"});
 				res.end(this.data);
 				this.data = "";
+				this.guess = "";
 			}
 		}
 		else {
