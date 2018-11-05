@@ -8,13 +8,26 @@ This repo contains a port of [this project](https://github.com/mncmncmnc/culture
 
 The project requires [NodeJS](https://nodejs.org) with a version greater than 6.5.0 and homebrew to run. You must also create an account with [Google Cloud Account](https://console.cloud.google.com/project). You will need to enable billing and the Google Speech API and download a credential file.
 
-You will also need [homebrew](https://brew.sh)
+You will need to replace the credentials.json file in this repo with the credentials you download from google.
 
-After that you can run the setup.sh script contained in this repo to install the other dependencies.
+### OSX installation
 
-You will need to replace the credentials.json file in this repo with your own credentials.
+You will need [homebrew](https://brew.sh)
 
-## Using the Project
+After that, navigate to the directory and run the setup.sh script contained in this repo to install the other dependencies.
+```
+. setup.sh
+```
+
+### Windows installation
+
+You will need to install sox manually via [binary files] (http://sourceforge.net/projects/sox/files/latest/download)
+
+Once installed, you must [add sox to your path](https://stackoverflow.com/questions/17667491/how-to-use-sox-in-windows#17668191)
+
+# Using the Project
+
+## Setup
 
 This project connects Unity to the Google Speech API via a local node server. To run the project you will need to run the node server. You can either do this by running 
 
@@ -22,11 +35,39 @@ This project connects Unity to the Google Speech API via a local node server. To
 node server.js
 ```
 
-or running the run.command file contained in thi repo. Once the server is running, you can open the app in Unity and run it from one of the scenes.
+in terminal (OSX) or Power Shell (Windows) or running the run.command file contained in this repo. Once the server is running, you can open the app in Unity and run it from one of the scenes.
 
-There is a prefab called DataManagement which will handle the server communication. To start your own visualization/experiment, start a new scene and drop the prefab in. 
+The first time you run the project it is recommended you run the ColorConfig scene once to set up the color schemes in your player prefrences.
 
-The prefab lets you check what the microphone input has received, along with a few convenience functions, such as arrays of all confirmed or unconfirmed words.
+## Development
+
+### Getting Transcribed Speech
+
+There is a prefab called DataManagement which contains a script called NodeServerManager that handles the server communication for you. To start your own visualization/experiment, start a new scene and drop the prefab in. 
+
+The prefab is set up to trigger an event when it receives transcriptions from the Google API
+
+```
+NodeServerManager.APIReturned += YourWordProcessingFunction;
+```
+
+will call YourWordProcessingFunction() whenever new transcriptions come from google
+
+The script also comes with a few static convenience functions, such as arrays of all confirmed or unconfirmed words.
+
+```
+NodeServerManager.confirmedFullText
+```
+
+will return the complete confirmed string up to this point.
+
+```
+NodeServerManager.currentPossibleText
+```
+
+will return the current guess.
+
+###  DataManagementPrefab
 
 The DataManagement prefab also contains the Emotion Color Picker, which has a static method for retrieving color data for words. The color data is returned in a ColorScheme object, which contains a background color, font color, and color name.
 
