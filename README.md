@@ -73,6 +73,20 @@ The DataManagement prefab also contains the Emotion Color Picker, which has a st
 
 The DataManagement prefab will not start querying the API until you hit the Space Bar, but it will also listen to customizable OSC events. You can set what event it should listen to in the inspector.
 
+### ColorScheme Struct
+
+The color data for the project is transferred around using a ColorScheme struct. The struct contains the name of the color, a background color, and a font color. 
+
+```
+public struct ColorScheme {
+		public string colorName;
+		public Color background
+		public Color font;
+	}
+```
+
+When you retrieve a color from EmotionColorPicker, it will be wrapped in this struct. You can set the colors in the ColorConfig tool.
+
 ## Scenes In the Project
 
 Main - A Port of the original project
