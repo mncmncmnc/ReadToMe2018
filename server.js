@@ -5,11 +5,24 @@ var http = require("http");
 
 const OUT_OF_RANGE_ERROR_CODE = 11;
 
+if(!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+	console.log("You haven't set your credentials yet!");
+	process.exit(1);
+}
+
 class Server
 {
 	constructor() {
 		if(process.argv[2]) {
-			this.port = process.argv[2];
+			this.device = process.argv[2];
+			console.log("using device " + this.device);
+		}
+		else {
+			this.device = null;
+			console.log("using default recording device");
+		}
+		if(process.argv[3]) {
+			this.port = process.argv[3];
 		}
 		else {
 			this.port = 3000;
@@ -85,6 +98,19 @@ class Server
 		);
 
 	  // Start recording and send the microphone input to the Speech API
+	if(this.device) {
+	  this.record
+		.start({
+		  sampleRateHertz: 16000,
+		  threshold: 0, //silence threshold
+		  recordProgram: 'rec', // Try also "arecord" or "sox"
+		  silence: '5.0', //seconds of silence before ending
+		  device: this.device,
+		})
+		.on('error', console.error)
+		.pipe(recognizeStream);
+	}
+	else {
 	  this.record
 		.start({
 		  sampleRateHertz: 16000,
@@ -94,6 +120,7 @@ class Server
 		})
 		.on('error', console.error)
 		.pipe(recognizeStream);
+	}
 
 	  console.log('Listening, press Ctrl+C to stop.');
 	  // [END micStreamRecognize]

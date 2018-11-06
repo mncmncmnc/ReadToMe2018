@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114103391786550586}
   - component: {fileID: 114429183523453208}
   - component: {fileID: 114969091914064340}
+  - component: {fileID: 114196302831561500}
   m_Layer: 0
   m_Name: DataManagement
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc13d86c55c0144e8bfdc854dbfa1099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114196302831561500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117511206530030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0499135f9d5bd472f95f17b4e07f8b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  microphoneName: 
 --- !u!114 &114429183523453208
 MonoBehaviour:
   m_ObjectHideFlags: 1
