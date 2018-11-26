@@ -9,18 +9,23 @@ public class NodeServerManager : MonoBehaviour {
 	private static string url = "http://localhost";
 	private static string port = "3000";
 	int running;
+
 	EmotionColorPicker colorPicker;
 	public static string confirmedFullText;
 	public static string currentPossibleText;
 
 	public delegate void APICallReturnedDelegate();
 	public static APICallReturnedDelegate APIReturned;
+    public bool RepeatGuessesTrigger;
+    int wordsInGuess;
 	
 	// Use this for initialization
 	void Awake () {
 		running = 0;
+        wordsInGuess = 0;
 		confirmedFullText = "";
 		currentPossibleText = "";
+        ChangeRunningStatus(1);
 	}
 	
 	// Update is called once per frame
@@ -88,12 +93,16 @@ public class NodeServerManager : MonoBehaviour {
 					Debug.Log("response:" + www.downloadHandler.text);
 					confirmedFullText += www.downloadHandler.text;
 					currentPossibleText = "";
+                    wordsInGuess = 0;
 					APIReturned();
 				}
 				else if(www.responseCode == 206) {
-					Debug.Log("Received Guess");
-					currentPossibleText = www.downloadHandler.text;
-					APIReturned();
+                    Debug.Log("Received Guess");
+                    if (RepeatGuessesTrigger || www.downloadHandler.text.Split(' ').Length > wordsInGuess) {
+                        currentPossibleText = www.downloadHandler.text;
+                        wordsInGuess = GetConfirmedWords().Length;
+                        APIReturned();
+                    }
 				}
 				else if(www.responseCode ==204) {
 					//Debug.Log("no new content!");
