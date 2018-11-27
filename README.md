@@ -6,4 +6,4 @@ This repo contains both the Unity and Python versions of the Read To Me project 
 
 The Python directory contains the original version of the project which utilizes python andMax/MSP/Jitter. The Unity directory contains the second version of the project using NodeJS and Unity.
 
-Each directory contains instructions for setting up the individual projects. More info can be found [here] (https://www.maxwellneelycohen.com/culturehub-residency)
+Each directory contains instructions for setting up the individual projects. More info can be found [here](https://www.maxwellneelycohen.com/culturehub-residency)
