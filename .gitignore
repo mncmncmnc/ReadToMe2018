@@ -17,6 +17,8 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
+*.vscode
+*.otf
 
 
 # Unity3D generated meta files
@@ -29,7 +31,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-.DS_Store
+*.DS_Store
 node_modules
 package-lock.json
 /Packages/
