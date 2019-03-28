@@ -3,3 +3,4 @@ google-api-core==1.2.0
 pyaudio==0.2.11
 TextBlob==0.15.1
 osc4py3==1.0.4
+grpcio==1.19.0
