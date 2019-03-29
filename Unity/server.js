@@ -3,6 +3,10 @@
 
 var http = require("http");
 
+var fs = require("fs");
+var micConfig = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+
 const OUT_OF_RANGE_ERROR_CODE = 11;
 
 if(!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
@@ -15,6 +19,10 @@ class Server
 	constructor() {
 		if(process.argv[2]) {
 			this.device = process.argv[2];
+			console.log("using device " + this.device);
+		}
+		else if(micConfig.deviceName) {
+			this.device = micConfig.deviceName;
 			console.log("using device " + this.device);
 		}
 		else {
@@ -101,7 +109,7 @@ class Server
 	if(this.device) {
 	  this.record
 		.start({
-		  sampleRateHertz: 16000,
+		  sampleRateHertz: micConfig.sampleRate,//16000,
 		  threshold: 0, //silence threshold
 		  recordProgram: 'rec', // Try also "arecord" or "sox"
 		  silence: '5.0', //seconds of silence before ending
@@ -113,7 +121,7 @@ class Server
 	else {
 	  this.record
 		.start({
-		  sampleRateHertz: 16000,
+		  sampleRateHertz: micConfig.sampleRate,
 		  threshold: 0, //silence threshold
 		  recordProgram: 'rec', // Try also "arecord" or "sox"
 		  silence: '5.0', //seconds of silence before ending
@@ -138,7 +146,7 @@ class Server
 	handleReconnectError(error) {
 		if(!this.running) return;
 		if(error.code === OUT_OF_RANGE_ERROR_CODE ) {
-			httpServer.startMicrophoneStream('LINEAR16', 16000, 'en-US');
+			httpServer.startMicrophoneStream('LINEAR16', micConfig.sampleRate, 'en-US');
 		//	this.initializeStream();
 		}
 		else console.error
@@ -159,7 +167,7 @@ class Server
                     var key = decodeURIComponent(pair[0]);
                     var val = decodeURIComponent(pair[1]);
 					if(key == "action" && val == "start") {
-						this.startMicrophoneStream('LINEAR16', 16000, 'en-US');
+						this.startMicrophoneStream('LINEAR16', micConfig.sampleRate, 'en-US');
 						this.running = true;
 						this.guess = "";
 						this.data = "";
