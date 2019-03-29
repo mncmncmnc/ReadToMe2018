@@ -24,7 +24,7 @@ Run the following commands from the root directory of this repo.
 
 2. Install pyenv, pyenv-virtualenv, and portaudio.
 
-```brew install pyenv pyenv-virtualenv portaudio```
+```brew install pyenv pyenv-virtualenv portaudio zlib```
 
 3. Run the following commands to add init code for `pyenv` and `pyenv-virtualenv` to your ~/.bash_profile.
 
@@ -36,6 +36,12 @@ echo 'eval "$(pyenv virtualenv-init -)"' | cat - ~/.bash_profile > temp && mv te
 echo 'eval "$(pyenv init -)"' | cat - ~/.bash_profile > temp && mv temp ~/.bash_profile
 
 echo 'export PATH="/usr/local/bin:$PATH"' | cat - ~/.bash_profile > temp && mv temp ~/.bash_profile
+
+echo 'export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"' | cat - ~/.bash_profile > temp && mv temp ~/.bash_profile
+
+echo 'export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"' | cat - ~/.bash_profile > temp && mv temp ~/.bash_profile
+
+echo 'PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"' | cat - ~/.bash_profile > temp && mv temp ~/.bash_profile
 
 source ~/.bash_profile
 ```
