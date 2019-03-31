@@ -2,7 +2,7 @@ CRED=`pwd`
 CRED+="/credentials.json"
 export GOOGLE_APPLICATION_CREDENTIALS=$CRED
 brew install sox
-brew install SwitchAudioSource
+brew install switchaudio-osx
 npm install
 git update-index --skip-worktree ./credentials.json 
 deviceList=() 
@@ -14,6 +14,8 @@ echo "Select input device"
 select DEVICENAME in "${deviceList[@]}" 
 do 
 echo "Selected $DEVICENAME" 
+DEVICENAME="${DEVICENAME%"${DEVICENAME##*[![:space:]]}"}"
+(SwitchAudioSource -t input -s "$DEVICENAME")
 break 
 done 
   

@@ -22,7 +22,7 @@ class Server
 			console.log("using device " + this.device);
 		}
 		else if(micConfig.deviceName) {
-			this.device = micConfig.deviceName;
+			this.device = null;// micConfig.deviceName;
 			console.log("using device " + this.device);
 		}
 		else {

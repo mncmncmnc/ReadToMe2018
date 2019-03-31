@@ -12,6 +12,8 @@ echo "Select input device"
 select DEVICENAME in "${deviceList[@]}"
 do
 	echo "Selected $DEVICENAME"
+DEVICENAME="${DEVICENAME%"${DEVICENAME##*[![:space:]]}"}"
+(SwitchAudioSource -t input -s "$DEVICENAME")
 	break
 done
 
